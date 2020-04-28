@@ -54,10 +54,11 @@ public class ControladorLocalidades {
     {
         ciudades= new ArrayList<>();
         ciudades.add(new Ciudad("17001","Manizales", departamentos.get(0)));
-        ciudades.add(new Ciudad("66001","Pereira", departamentos.get(1)));
-        ciudades.add(new Ciudad("63001","Armenia", departamentos.get(2)));
-        ciudades.add(new Ciudad("17486","Neira", departamentos.get(0)));
-        ciudades.add(new Ciudad("17873","Villamaría", departamentos.get(0)));
+        ciudades.add(new Ciudad("66001","Cali", departamentos.get(0)));
+        ciudades.add(new Ciudad("63001","Medellin", departamentos.get(0)));
+        ciudades.add(new Ciudad("17486","Cartagena", departamentos.get(0)));
+        ciudades.add(new Ciudad("17873","Bogota", departamentos.get(0)));
+        ciudades.add(new Ciudad("17873","Pereira", departamentos.get(0)));
     }
     
     public List<Ciudad> obtenerCiudadesxDepto(String codigo)

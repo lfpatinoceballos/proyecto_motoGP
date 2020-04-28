@@ -70,14 +70,14 @@ public class SesionPiloto implements Serializable {
         
         listaPilotos = new ListaPiloto();        
         //LLenado de la bds
-        listaPilotos.adicionarNodo(new Piloto("Juan Jose ",(short) 1, (byte)2, true,
+        listaPilotos.adicionarNodo(new Piloto("Juan Jose ",(short) 1, (byte)22, true,
                 controlLocalidades.getCiudades().get(0).getNombre()));
         
-        listaPilotos.adicionarNodo(new Piloto("Maria Camila",(short) 2, (byte)3, false,
+        listaPilotos.adicionarNodo(new Piloto("Maria Camila",(short) 2, (byte)21, false,
         controlLocalidades.getCiudades().get(3).getNombre()));
-        listaPilotos.adicionarNodo(new Piloto("Carmen",(short) 3, (byte)1,false,
+        listaPilotos.adicionarNodo(new Piloto("Carmen",(short) 3, (byte)19,false,
         controlLocalidades.getCiudades().get(1).getNombre()));
-        listaPilotos.adicionarNodoAlInicio(new Piloto("Lupe",(short) 4, (byte)5,false,
+        listaPilotos.adicionarNodoAlInicio(new Piloto("Lupe",(short) 4, (byte)23,false,
         controlLocalidades.getCiudades().get(2).getNombre()));
         ayudante = listaPilotos.getCabeza();
         piloto = ayudante.getDato();     
@@ -225,7 +225,7 @@ public class SesionPiloto implements Serializable {
         listadoPilotos = listaPilotos.obtenerListaPilotos();
         pintarLista();
         deshabilitarFormulario=true;
-        JsfUtil.addSuccessMessage("El Piloto se ha inscrito satisfactoriamente");
+        JsfUtil.addSuccessMessage("El piloto se ha inscrito correctamente");
         
     }
     
@@ -370,7 +370,7 @@ public class SesionPiloto implements Serializable {
             try{
                 listaPilotos.eliminarPiloto(codigoEliminar);
                 irPrimero();
-                JsfUtil.addSuccessMessage("Infante "+codigoEliminar +" eliminado.");
+                JsfUtil.addSuccessMessage(" Piloto "+codigoEliminar +" eliminado.");
             }
             catch(PilotoExcepcion e)
             {
@@ -396,7 +396,7 @@ public class SesionPiloto implements Serializable {
     public void enviarAlFinal()
     {
         try {
-            ///Buscar el infante y guardar los datos en una variable temporal
+            ///Buscar el pilotoy guardar los datos en una variable temporal
             Piloto infTemporal = listaPilotos.obtenerPiloto(pilotoSeleccionado);
             // Eliminar el nodo
             listaPilotos.eliminarPiloto(pilotoSeleccionado);
@@ -409,10 +409,21 @@ public class SesionPiloto implements Serializable {
         }
     }
     
+    
+    public void elimPiloto()
+    {
+        try {
+            listaPilotos.eliminarPiloto(pilotoSeleccionado);
+            irPrimero();
+        } catch (PilotoExcepcion ex) {
+             JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
     public void enviarAlInicio()
     {
         try {
-            ///Buscar el infante y guardar los datos en una variable temporal
+            ///Buscar el piloto y guardar los datos en una variable temporal
             Piloto infTemporal = listaPilotos.obtenerPiloto(pilotoSeleccionado);
             // Eliminar el nodo
             listaPilotos.eliminarPiloto(pilotoSeleccionado);

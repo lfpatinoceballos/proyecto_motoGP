@@ -87,7 +87,7 @@ public class ListaPiloto implements Serializable{
     public String obtenerListadoPilotos()
     {
         
-        //Un método recursivo que recoora mis infantes y que sacando la
+        //Un método recursivo que recoora mis pilotos y que sacando la
         // info la adicione en el string
         
         return listarPilotos("");
@@ -113,7 +113,7 @@ public class ListaPiloto implements Serializable{
      public List obtenerListaPilotos()
     {
         List<Piloto> listado = new ArrayList<>();
-        //Un método recursivo que recoora mis infantes y que sacando la
+        //Un método recursivo que recoora mis pilotos y que sacando la
         // info la adicione een el string
         listarPilotos(listado);
         return listado;
@@ -229,7 +229,7 @@ public class ListaPiloto implements Serializable{
                 throw new PilotoExcepcion("El código "+codigo +" no existe en la lista");
             }
         }
-        throw new PilotoExcepcion("La lista de infantes está vacía");
+        throw new PilotoExcepcion("La lista de pilotos está vacía");
     }
     
       public Piloto obtenerPiloto(short codigo ) throws PilotoExcepcion
@@ -255,7 +255,7 @@ public class ListaPiloto implements Serializable{
                 throw new PilotoExcepcion("El código "+codigo +" no existe en la lista");
             }
         }
-        throw new PilotoExcepcion("La lista de infantes está vacía");
+        throw new PilotoExcepcion("La lista de pilotos está vacía");
     }
     
     

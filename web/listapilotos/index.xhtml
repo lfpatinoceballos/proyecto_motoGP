@@ -42,7 +42,7 @@
         <h:form id="frmInfante">
             <p:commandButton value="Volver" action="inicio" />
             <p:panel header="Lista de pilotos - Total Pilotos #{sesionPiloto.listaPiloto.contarNodos()}">
-                <p:panelGrid columns="3">
+                <p:panelGrid columns="2">
                     <p:panel header="Datos del Piloto">
 
                         <p:panelGrid columns="2">
@@ -59,13 +59,7 @@
                                 <f:selectItem itemLabel="Mujer" itemValue="false"/>
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="Departamento"/>
-                            <p:selectOneMenu value="#{sesionPiloto.codigoDeptoSel}" disabled="#{sesionPiloto.deshabilitarFormulario}" >
-                                <f:selectItems value="#{sesionPiloto.controlLocalidades.departamentos}" 
-                                               var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
-                                               />
-                                <p:ajax event="change" update="cmbCiudad" process="cmbCiudad" />
-                            </p:selectOneMenu>
+                           
 
                             <p:outputLabel value="Ciudad"/>
                             <p:selectOneMenu id="cmbCiudad" value="#{sesionPiloto.piloto.ciudadNacimiento}" disabled="#{sesionPiloto.deshabilitarFormulario}"  >
@@ -109,7 +103,7 @@
                     
                     </p:panel>
                     <p:panel header="Reporte de la carrera"> 
-                        <p:outputLabel value="Cantidad de pilotos en lista: #{sesionPiloto.listaPiloto.contarNodos()}"/>
+                        <p:outputLabel value="Cantidad de pilotos en la carrera: #{sesionPiloto.listaPiloto.contarNodos()}"/>
                         
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Cantidad Pilotos Hombres: "/>
@@ -121,15 +115,6 @@
                          
                     </p:panel>
                      
-                    <p:panel header="Lista de los pilotos que se han inscrito">
-                        <br/>
-                        <p:outputLabel value="Nombre de los pilotos:  #{sesionPiloto.listaPiloto.obtenerListadoPilotos()} "/>
-                        <br/>
-       
-                        
-                        </p:panel>
-
-
                 </p:panelGrid>
 
                 <p:panel header="Gráfico" id="pnlVista" style="width: 100%;">
@@ -140,7 +125,7 @@
                     <p:dataTable rendered="#{sesionPiloto.textoVista=='Gráfico'}"  value="#{sesionPiloto.listadoPilotos}" var="inf">
                         <p:column>
                             <f:facet name="header">
-                                <p:outputLabel value="Código"/>
+                                <p:outputLabel value="Numero del piloto"/>
                             </f:facet>
                             <p:outputLabel value="#{inf.codigo}"/>
                         </p:column>
@@ -165,7 +150,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <p:outputLabel value="Ciudad nacimiento"/>
+                                <p:outputLabel value="Ciudad que representa"/>
                             </f:facet>
                             <p:outputLabel value="#{inf.ciudadNacimiento}"/>
                         </p:column>
@@ -198,22 +183,66 @@
                                     action="#{sesionPiloto.obtenerPilotoDiagrama()}" 
                                     update="panelInfante"                                    
                                     oncomplete="PF('dlgDatosInfante').show();" />
-                        <p:menuitem value="Eliminar"/>
+                        <p:menuitem value="Eliminar"
+                                     action="#{sesionPiloto.obtenerPilotoDiagrama()}" 
+                                    update="panelEliminarInfante"                                    
+                                    oncomplete="PF('dlgEliminarInfante').show();" />
+                        
                         <p:menuitem value="Enviar al final" update="pnlVista"                                    
                                     action="#{sesionPiloto.enviarAlFinal()}"/>
                         <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
                                     action="#{sesionPiloto.enviarAlInicio()}"                                    
                                     />
-                        <p:menuitem value="Adelantar/Perder Posición"/>
+                       <p:menuitem value="Adelantar/Perder Posición"
+                        update="panelposicionPiloto" 
+                                    action="#{sesionPiloto.obtenerPilotoDiagrama()}" 
+                                    oncomplete="PF('dlgposicionPiloto').show();" />
                     </p:contextMenu>
                 </p:panel>
             </p:panel>
             
-            <p:dialog id="modalInfante" header="Datos Infante" widgetVar="dlgDatosInfante" 
-                      modal="true" height="100">
-                <p:panel id="panelInfante">
+            
+            
+            <p:dialog id="modalEliminarPiloto" header="Desea eliminar este piloto" widgetVar="dlgEliminarInfante" 
+                      modal="true" height="200">
+                <p:panel id="panelEliminarInfante">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Numero del piloto:" />
+                        <h:outputText value="#{sesionPiloto.pilotoDiagrama.codigo}" />
+                        <h:outputText value="Nombre:" />
+                        <h:outputText value="#{sesionPiloto.pilotoDiagrama.nombre}" />
+                        <h:outputText value="Género:" />
+                        <h:outputText rendered="#{sesionPiloto.pilotoDiagrama.genero}" value="Masculino" />
+                        <h:outputText rendered="#{!sesionPiloto.pilotoDiagrama.genero}" value="Femenino" />
+                    </h:panelGrid>
+                    <p:commandButton value="Aceptar" action="#{sesionPiloto.elimPiloto()}"
+                                     onclick="PF('dlgEliminarCorredor').hid();"  update="pnlVista"/>
+                    <p:commandButton value="Cancelar" onclick="PF('dlgEliminarCorredor').hid();" />
+                </p:panel>
+            </p:dialog> 
+             <p:dialog id="modalavanzarretrocederPiloto" header="avanzar/perder posicion piloto" widgetVar="dlgposicionPiloto" 
+                      modal="true" height="200">
+                <p:panel id="panelposicionPiloto">
                     <h:panelGrid columns="2">
                         <h:outputText value="Código:" />
+                        <h:outputText value="#{sesionPiloto.pilotoDiagrama.codigo}" />
+                        <h:outputText value="Nombre:" />
+                        <h:outputText value="#{sesionPiloto.pilotoDiagrama.nombre}" />
+                        <h:outputText value="Género:" />
+                        <h:outputText rendered="#{sesionPiloto.pilotoDiagrama.genero}" value="Masculino" />
+                        <h:outputText rendered="#{!sesionPiloto.pilotoDiagrama.genero}" value="Femenino" />
+                    </h:panelGrid>
+                    <p:commandButton value="Adelantar" action="#{sesionPiloto}"/>
+                    <p:commandButton value="Perder posicion" action="#{sesionPiloto}"/>
+                    <p:commandButton value="Cancelar" onclick="PF('dlgEliminarCorredor').hid();"/>
+                </p:panel>
+            </p:dialog> 
+            
+              <p:dialog id="modalPiloto" header="Datos Piloto" widgetVar="dlgDatosInfante" 
+                      modal="true" height="200">
+                <p:panel id="panelInfante">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Numero del piloto:" />
                         <h:outputText value="#{sesionPiloto.pilotoDiagrama.codigo}" />
                         <h:outputText value="Nombre:" />
                         <h:outputText value="#{sesionPiloto.pilotoDiagrama.nombre}" />
