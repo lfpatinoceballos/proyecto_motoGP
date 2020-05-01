@@ -295,7 +295,15 @@ public class SesionInfanteDE implements Serializable {
             textoVista = "Tabla";
         }
     }
-    
+     public void elimInfante()
+    {
+        try {
+            listaInfantes.eliminarInfante(infanteSeleccionado);
+            irPrimero();
+        } catch (InfanteExcepcion ex) {
+             JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
     public void invertirLista(){
         //Invierte la lista
         listaInfantes.invertirLista();

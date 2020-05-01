@@ -245,7 +245,15 @@ public class SesionInfante implements Serializable {
             infante = ayudante.getDato();
         }        
     }
-    
+     public void elimInfante()
+    {
+        try {
+            listaInfantes.eliminarInfante(infanteSeleccionado);
+            irPrimero();
+        } catch (InfanteExcepcion ex) {
+             JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
     public void irPrimero()
     {
         if(listaInfantes.getCabeza()!=null)
